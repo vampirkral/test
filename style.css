@@ -1,0 +1,460 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
+    color: #fff;
+    overflow: hidden;
+    cursor: none;
+}
+
+/* Game Container */
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Menu Screens */
+.menu-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0a0a 0%, #2d0000 50%, #0a0a0a 100%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.menu-screen.active {
+    display: flex;
+}
+
+.menu-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+        linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
+    animation: backgroundPulse 4s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.menu-content {
+    text-align: center;
+    z-index: 1001;
+    position: relative;
+}
+
+.game-title {
+    font-family: 'Creepster', cursive;
+    font-size: 4rem;
+    color: #ff0000;
+    text-shadow: 
+        0 0 10px #ff0000,
+        0 0 20px #ff0000,
+        0 0 30px #ff0000,
+        0 0 40px #ff0000;
+    margin-bottom: 1rem;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; }
+    to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000; }
+}
+
+.game-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.menu-btn {
+    background: linear-gradient(45deg, #333, #555);
+    border: 2px solid #ff0000;
+    color: #fff;
+    padding: 1rem 2rem;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.menu-btn:hover::before {
+    left: 100%;
+}
+
+.menu-btn:hover {
+    background: linear-gradient(45deg, #444, #666);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.menu-btn.primary {
+    background: linear-gradient(45deg, #ff0000, #cc0000);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+}
+
+.menu-btn.primary:hover {
+    background: linear-gradient(45deg, #ff3333, #ff0000);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Instructions */
+.instructions {
+    text-align: left;
+    margin: 2rem 0;
+    display: inline-block;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.key {
+    background: #333;
+    border: 2px solid #ff0000;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+}
+
+.action {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+/* Game Screen */
+.game-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.game-screen.active {
+    display: block;
+}
+
+/* HUD */
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.hud-left, .hud-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hud-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Health Bar */
+.health-bar {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #00ff00;
+    min-width: 200px;
+}
+
+.health-label {
+    font-size: 0.8rem;
+    color: #00ff00;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.health-container {
+    width: 100%;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #00ff00;
+}
+
+.health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #33ff33);
+    width: 100%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+/* Ammo Display */
+.ammo-display {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid #ffff00;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffff00;
+    text-align: center;
+    text-shadow: 0 0 10px #ffff00;
+}
+
+/* Score and Wave Display */
+.score-display, .wave-display, .zombies-left {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid #ff0000;
+    text-align: center;
+    min-width: 100px;
+}
+
+.score-label, .wave-label, .zombies-label {
+    font-size: 0.8rem;
+    color: #ff0000;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#scoreValue, #waveValue, #zombiesLeft {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+/* Crosshair */
+.crosshair {
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+.crosshair::before,
+.crosshair::after {
+    content: '';
+    position: absolute;
+    background: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+.crosshair::before {
+    width: 2px;
+    height: 30px;
+    left: 14px;
+    top: 0;
+}
+
+.crosshair::after {
+    width: 30px;
+    height: 2px;
+    left: 0;
+    top: 14px;
+}
+
+/* Game Canvas */
+#gameCanvas {
+    display: block;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    cursor: none;
+}
+
+/* Weapon Selection */
+.weapon-selection {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 101;
+}
+
+.weapon-slot {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #555;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.weapon-slot.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.weapon-key {
+    font-size: 0.8rem;
+    color: #ccc;
+    background: #333;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid #555;
+}
+
+.weapon-slot.active .weapon-key {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.weapon-name {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Game Over Screen */
+.game-over-title {
+    font-family: 'Creepster', cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    margin-bottom: 2rem;
+}
+
+.final-stats {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #333;
+    min-width: 300px;
+}
+
+.stat-label {
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.stat-value {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+/* Animations */
+@keyframes muzzleFlash {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(2); }
+}
+
+@keyframes bloodSplatter {
+    0% { opacity: 1; transform: scale(0.5) rotate(0deg); }
+    100% { opacity: 0; transform: scale(2) rotate(360deg); }
+}
+
+@keyframes damageFlash {
+    0% { background: rgba(255, 0, 0, 0); }
+    50% { background: rgba(255, 0, 0, 0.3); }
+    100% { background: rgba(255, 0, 0, 0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    .hud {
+        padding: 10px;
+    }
+    
+    .health-bar, .ammo-display, .score-display, .wave-display, .zombies-left {
+        min-width: auto;
+        font-size: 0.9rem;
+    }
+    
+    #gameCanvas {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+/* Cursor styles for different game states */
+body.game-active {
+    cursor: none;
+}
+
+body.menu-active {
+    cursor: default;
+}
